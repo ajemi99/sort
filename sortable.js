@@ -17,15 +17,15 @@ let data = []
 fetchData()
   let numItems = 20
    let firstIndex =0
-   let lastIndex = firstIndex + numItems
+
 function diplayData (dataFilter = data){
- 
-   data = data.slice(firstIndex,lastIndex)
+    let lastIndex = firstIndex + numItems
+   dataFilter = dataFilter.slice(firstIndex,lastIndex)
    const  grid = document.querySelector(".grid")
-    console.log(grid);
+    // console.log(grid);
     
     
-   const display = data.map(hero=>
+   const display = dataFilter.map(hero=>
        ` <tr>
             <td><img class="avatar" src="${hero.images.sm}" alt="${hero.name}"></td>
             <td>${hero.name}</td>
@@ -38,8 +38,8 @@ function diplayData (dataFilter = data){
             <td>${hero.powerstats.combat ?? 'N/A'}</td>
             <td>${hero.appearance.race}</td>
             <td>${hero.appearance.gender}</td>
-            <td>${hero.appearance.height.join(" && ")}</td>
-            <td>${hero.appearance.weight.join(" && ")}</td>
+            <td>${hero.appearance.height.join(" // ")}</td>
+            <td>${hero.appearance.weight.join(" // ")}</td>
             <td>${hero.biography.placeOfBirth}</td>
             <td>${hero.biography.alignment}</td>
          </tr>`
@@ -52,10 +52,32 @@ const select = document.querySelector("#select")
 select.addEventListener("change",e=>{
     if(e.target.value === "all") {
         numItems = data.length 
+        console.log(numItems);
     }else{
-        numItems = ++(e.target.value)
+        numItems = +e.target.value
+        console.log(numItems);
     }
     diplayData()
 }
 )
+const page = document.querySelector("#page")
+const next = document.querySelector("#next")
+next.addEventListener("click",e=>{
+    if(numItems * page.textContent < data.length) page.textContent = +page.textContent + 1
+   if( firstIndex + numItems <= data.length )  firstIndex = firstIndex + numItems
+  
+   
+    diplayData()
+})
+const prev = document.querySelector("#prev")
+prev.addEventListener("click",e=>{
+    if (page.textContent -1 >=1) {
+        page.textContent = +page.textContent -1
+    }
+    if(firstIndex-numItems>=0){
+        firstIndex = firstIndex - numItems
+    diplayData()
+    }
+   
+})
 

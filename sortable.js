@@ -36,7 +36,7 @@ function diplayData (dataFilter = data){
             <td>${hero.powerstats.durability ?? 'N/A'}</td>
             <td>${hero.powerstats.power ?? 'N/A'}</td>
             <td>${hero.powerstats.combat ?? 'N/A'}</td>
-            <td>${hero.appearance.race}</td>
+            <td>${hero.appearance.race ?? "N/A"}</td>
             <td>${hero.appearance.gender}</td>
             <td>${hero.appearance.height.join(" // ")}</td>
             <td>${hero.appearance.weight.join(" // ")}</td>
@@ -79,5 +79,15 @@ prev.addEventListener("click",e=>{
     diplayData()
     }
    
+})
+const search = document.querySelector("#search_bar")
+search.addEventListener("input",e=>{
+   let dataSearch = data.filter(hero =>{
+        if(hero.name.toLowerCase().includes(e.target.value.toLowerCase())) return true
+        if (hero.biography.fullName.toLowerCase().includes(e.target.value.toLowerCase())) return true
+        return false
+
+    })
+    diplayData(dataSearch)
 })
 
